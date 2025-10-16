@@ -24,6 +24,9 @@ async fn main() -> Result<()> {
         Commands::GetDocs { id } => {
             commands::get_docs::execute(id).await?;
         }
+        Commands::Lucky { query } => {
+            commands::lucky::execute(query).await?;
+        }
     }
 
     Ok(())

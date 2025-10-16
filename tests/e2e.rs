@@ -111,3 +111,24 @@ fn test_search_with_invalid_sort_field() -> Result<(), Box<dyn std::error::Error
 
     Ok(())
 }
+
+/// Test lucky command auto-selects top result and fetches docs
+///
+/// This test makes real network requests to the Context7 API.
+/// Run with: RUN_NETWORK_TESTS=1 cargo test -- --ignored
+#[test]
+#[ignore = "network test - set RUN_NETWORK_TESTS=1 and run with: cargo test -- --ignored"]
+fn test_lucky_command() -> Result<(), Box<dyn std::error::Error>> {
+    if !should_run_network_tests() {
+        eprintln!("Skipping network test - set RUN_NETWORK_TESTS=1 to run");
+        return Ok(());
+    }
+    let mut cmd = Command::cargo_bin("context7-cli")?;
+    cmd.arg("lucky").arg("fastapi");
+
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::is_match(r"(?i)fastapi").unwrap());
+
+    Ok(())
+}
