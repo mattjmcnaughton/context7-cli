@@ -29,6 +29,11 @@ enum Commands {
         #[arg(long)]
         id_only: bool,
     },
+    /// Get documentation for a library by ID
+    GetDocs {
+        /// Library ID (e.g., "/fastapi/fastapi")
+        id: String,
+    },
 }
 
 #[derive(Debug, Deserialize)]
@@ -104,6 +109,15 @@ async fn main() -> Result<()> {
                 let pretty_json = serde_json::to_string_pretty(&search_response.results)?;
                 println!("{}", pretty_json);
             }
+        }
+        Commands::GetDocs { id } => {
+            // Strip leading slash if present for URL construction
+            let id_path = id.strip_prefix('/').unwrap_or(&id);
+            let url = format!("https://context7.com/api/v1/{}", id_path);
+
+            let response = reqwest::get(&url).await?;
+            let body = response.text().await?;
+            println!("{}", body);
         }
     }
 
