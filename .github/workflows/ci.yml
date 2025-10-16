@@ -6,9 +6,13 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  CARGO_TERM_COLOR: always
+
 jobs:
-  ci:
-    name: CI
+  # Fast feedback - always required for PRs and main
+  test:
+    name: Unit Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -26,3 +30,34 @@ jobs:
 
     - name: Run tests
       run: cargo test
+
+  # External API tests - informational for PRs, required for main
+  test-external:
+    name: External API Tests
+    runs-on: ubuntu-latest
+    # Allow PRs to pass even if external tests fail (network issues, API changes)
+    # But require them to pass on main branch
+    continue-on-error: ${{ github.event_name == 'pull_request' }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Rust
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Run external API tests
+      run: |
+        max_attempts=3
+        attempt=1
+        until RUN_NETWORK_TESTS=1 cargo test -- --ignored || [ $attempt -eq $max_attempts ]; do
+          echo "Attempt $attempt failed. Retrying in 10 seconds..."
+          sleep 10
+          attempt=$((attempt + 1))
+        done
+        if [ $attempt -eq $max_attempts ]; then
+          echo "All $max_attempts attempts failed"
+          exit 1
+        fi
+      env:
+        RUST_BACKTRACE: 1
