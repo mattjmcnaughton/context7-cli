@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/mattjmcnaughton/context7-cli/compare/v1.1.1...v1.2.0) (2025-10-16)
+
+
+### Features
+
+* **lucky:** add lucky command for auto-selecting top search result ([b647d6e](https://github.com/mattjmcnaughton/context7-cli/commit/b647d6eeb32b1a1f9eba9736669a44f500849318)), closes [#2](https://github.com/mattjmcnaughton/context7-cli/issues/2)
+
 ## [1.1.1](https://github.com/mattjmcnaughton/context7-cli/compare/v1.1.0...v1.1.1) (2025-10-16)
 
 
