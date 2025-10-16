@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/mattjmcnaughton/context7-cli/compare/v1.2.1...v1.2.2) (2025-10-16)
+
+
+### Bug Fixes
+
+* update docs w/ install instructions ([dd410d7](https://github.com/mattjmcnaughton/context7-cli/commit/dd410d7f49f8c27e82db4a77aaf5ea2ed7ee8d06))
+
 ## [1.2.1](https://github.com/mattjmcnaughton/context7-cli/compare/v1.2.0...v1.2.1) (2025-10-16)
 
 
