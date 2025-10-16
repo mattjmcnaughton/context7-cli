@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/mattjmcnaughton/context7-cli/compare/v1.0.0...v1.1.0) (2025-10-16)
+
+
+### Features
+
+* **test:** add e2e testing infrastructure and modular code structure ([4be0cbd](https://github.com/mattjmcnaughton/context7-cli/commit/4be0cbd525c5dec8d012a1e403ddf06cb0d87067))
+
 # 1.0.0 (2025-10-16)
 
 
