@@ -67,14 +67,25 @@ async fn main() -> Result<()> {
     let cli = Cli::parse();
 
     match cli.command {
-        Commands::Search { query, sort_by, limit, id_only } => {
+        Commands::Search {
+            query,
+            sort_by,
+            limit,
+            id_only,
+        } => {
             let url = format!("https://context7.com/api/v1/search?query={}", query);
 
             let response = reqwest::get(&url).await?;
             let mut search_response: SearchResponse = response.json().await?;
 
             // Validate sort_by field
-            let valid_fields = ["stars", "totalPages", "totalSnippets", "totalTokens", "trustScore"];
+            let valid_fields = [
+                "stars",
+                "totalPages",
+                "totalSnippets",
+                "totalTokens",
+                "trustScore",
+            ];
             if !valid_fields.contains(&sort_by.as_str()) {
                 anyhow::bail!(
                     "Invalid sort field '{}'. Valid options are: {}",
@@ -84,16 +95,26 @@ async fn main() -> Result<()> {
             }
 
             // Sort the results
-            search_response.results.sort_by(|a, b| {
-                match sort_by.as_str() {
+            search_response
+                .results
+                .sort_by(|a, b| match sort_by.as_str() {
                     "stars" => b.stars.unwrap_or(0).cmp(&a.stars.unwrap_or(0)),
                     "totalPages" => b.total_pages.unwrap_or(0).cmp(&a.total_pages.unwrap_or(0)),
-                    "totalSnippets" => b.total_snippets.unwrap_or(0).cmp(&a.total_snippets.unwrap_or(0)),
-                    "totalTokens" => b.total_tokens.unwrap_or(0).cmp(&a.total_tokens.unwrap_or(0)),
-                    "trustScore" => b.trust_score.unwrap_or(0.0).partial_cmp(&a.trust_score.unwrap_or(0.0)).unwrap_or(std::cmp::Ordering::Equal),
+                    "totalSnippets" => b
+                        .total_snippets
+                        .unwrap_or(0)
+                        .cmp(&a.total_snippets.unwrap_or(0)),
+                    "totalTokens" => b
+                        .total_tokens
+                        .unwrap_or(0)
+                        .cmp(&a.total_tokens.unwrap_or(0)),
+                    "trustScore" => b
+                        .trust_score
+                        .unwrap_or(0.0)
+                        .partial_cmp(&a.trust_score.unwrap_or(0.0))
+                        .unwrap_or(std::cmp::Ordering::Equal),
                     _ => unreachable!("Already validated sort_by field"),
-                }
-            });
+                });
 
             // Apply limit if specified
             if let Some(limit) = limit {
