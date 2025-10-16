@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/mattjmcnaughton/context7-cli/compare/v1.1.0...v1.1.1) (2025-10-16)
+
+
+### Bug Fixes
+
+* replace job dependency with tag-triggered publish workflow ([553111c](https://github.com/mattjmcnaughton/context7-cli/commit/553111cfbae251d509475402b1436b7db76d3f23)), closes [#4](https://github.com/mattjmcnaughton/context7-cli/issues/4)
+
 # [1.1.0](https://github.com/mattjmcnaughton/context7-cli/compare/v1.0.0...v1.1.0) (2025-10-16)
 
 
