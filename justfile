@@ -6,13 +6,21 @@ build:
 build-release:
     cargo build --release
 
-# Run tests
+# Run tests (excludes network tests)
 test:
     cargo test
 
 # Run tests with output
 test-verbose:
     cargo test -- --nocapture
+
+# Run only network tests (requires internet)
+test-network:
+    RUN_NETWORK_TESTS=1 cargo test -- --ignored
+
+# Run all tests including network tests (requires internet)
+test-all:
+    RUN_NETWORK_TESTS=1 cargo test -- --include-ignored
 
 # Format code
 fmt:
