@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/mattjmcnaughton/context7-cli/compare/v1.2.0...v1.2.1) (2025-10-16)
+
+
+### Bug Fixes
+
+* **publish:** change workflow trigger from tag push to release event ([5629524](https://github.com/mattjmcnaughton/context7-cli/commit/5629524257ca6d97c3cf29ccda34d21114f66a5d))
+
 # [1.2.0](https://github.com/mattjmcnaughton/context7-cli/compare/v1.1.1...v1.2.0) (2025-10-16)
 
 
