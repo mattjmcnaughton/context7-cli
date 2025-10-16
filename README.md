@@ -13,24 +13,66 @@ Context7 provides a comprehensive database of library documentation. This CLI to
 
 ## Installation
 
-### Prerequisites
+### Option 1: Download Pre-built Binary (Recommended)
 
+Download the latest pre-built binary for your platform from the [GitHub Releases page](https://github.com/mattjmcnaughton/context7-cli/releases):
+
+```bash
+# Set your platform (choose one):
+# Linux x86_64:
+ARCH=linux-x86_64
+# macOS Apple Silicon:
+# ARCH=macos-aarch64
+# macOS Intel:
+# ARCH=macos-x86_64
+
+# Download and extract
+curl -L https://github.com/mattjmcnaughton/context7-cli/releases/latest/download/context7-cli-${ARCH}.tar.gz | tar xz
+
+# Move to a directory in your PATH
+sudo mv context7-cli-${ARCH} /usr/local/bin/context7-cli
+
+# Make executable
+sudo chmod +x /usr/local/bin/context7-cli
+```
+
+Verify the installation:
+```bash
+context7-cli --help
+```
+
+### Option 2: Install with Cargo
+
+If you have Rust and Cargo installed:
+
+```bash
+cargo install --git https://github.com/mattjmcnaughton/context7-cli.git
+```
+
+This will install `context7-cli` to `~/.cargo/bin/`, which should be in your PATH.
+
+### Option 3: Build from Source
+
+**Prerequisites:**
 - [Rust](https://www.rust-lang.org/tools/install) (1.70 or later)
 - Cargo (comes with Rust)
 
-### Building from Source
-
+**Steps:**
 ```bash
 git clone https://github.com/mattjmcnaughton/context7-cli.git
 cd context7-cli
 cargo build --release
 ```
 
-The compiled binary will be available at `target/release/context7-cli`.
+The compiled binary will be available at `target/release/context7-cli`. You can copy it to a directory in your PATH:
+
+```bash
+sudo cp target/release/context7-cli /usr/local/bin/
+```
 
 ### Running Without Installation
 
-You can run the CLI directly with Cargo:
+You can run the CLI directly with Cargo without installing:
 
 ```bash
 cargo run -- <command> [options]
