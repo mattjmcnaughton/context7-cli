@@ -32,4 +32,9 @@ pub enum Commands {
         /// Library ID (e.g., "/fastapi/fastapi")
         id: String,
     },
+    /// Search and auto-select the top result (like "I'm feeling lucky")
+    Lucky {
+        /// Query string to search for
+        query: String,
+    },
 }

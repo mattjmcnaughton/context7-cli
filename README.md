@@ -7,6 +7,7 @@ A command-line interface for accessing the [Context7](https://context7.com) API,
 Context7 provides a comprehensive database of library documentation. This CLI tool allows you to:
 - Search for libraries across multiple programming languages and frameworks
 - Retrieve detailed documentation for specific libraries
+- Auto-select top search results with the "lucky" command
 - Sort and filter search results based on various metrics
 - Integrate Context7 data into your development workflows
 
@@ -37,6 +38,11 @@ cargo run -- <command> [options]
 
 ## Quick Start
 
+Auto-fetch documentation for the most popular result:
+```bash
+context7-cli lucky "fastapi"
+```
+
 Search for a library:
 ```bash
 context7-cli search "fastapi"
@@ -48,6 +54,36 @@ context7-cli get-docs "/fastapi/fastapi"
 ```
 
 ## Commands
+
+### `lucky`
+
+Search and automatically fetch documentation for the most popular (most starred) result. This is the fastest way to get documentation when you know what you're looking for.
+
+**Usage:**
+```bash
+context7-cli lucky <query>
+```
+
+**Arguments:**
+- `<query>` - The search query string
+
+**Examples:**
+
+Get FastAPI documentation instantly:
+```bash
+context7-cli lucky "fastapi"
+```
+
+Get React documentation:
+```bash
+context7-cli lucky "react"
+```
+
+**How it works:**
+1. Searches Context7 for your query
+2. Sorts results by star count (popularity)
+3. Automatically fetches and displays documentation for the top result
+4. Returns an error if no results are found
 
 ### `search`
 
@@ -138,16 +174,47 @@ context7-cli get-docs "fastapi/fastapi"
 
 Returns the raw documentation content from Context7.
 
-### LLM Integration
+## LLM Integration
 
 LLMs can use this CLI to retrieve up-to-date library documentation:
+
 ```bash
+# Quick documentation lookup with lucky
+context7-cli lucky "fastapi"
+
 # Get current documentation for a specific library version
 context7-cli get-docs "/vercel/next.js"
 
 # Search for alternatives and compare
 context7-cli search "react framework" --sort-by trustScore --limit 5
 ```
+
+The `lucky` command is particularly useful for LLMs when they need quick access to documentation without making multiple API calls.
+
+## Development
+
+### Prerequisites
+
+- Rust (latest stable version)
+- [just](https://github.com/casey/just) command runner
+
+### Common Commands
+
+```bash
+# Build the project
+just build
+
+# Run tests
+just test
+
+# Run all checks (format, lint, test)
+just ci
+
+# Run the CLI with arguments
+just run search "fastapi"
+```
+
+For detailed development instructions, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Contributing
 
