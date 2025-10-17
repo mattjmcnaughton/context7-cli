@@ -1,9 +1,8 @@
 use anyhow::Result;
 
-use crate::clients::Context7Client;
+use crate::clients::Context7ClientTrait;
 
-pub async fn execute(id: String) -> Result<()> {
-    let client = Context7Client::new();
+pub async fn execute<T: Context7ClientTrait>(client: &T, id: String) -> Result<()> {
     let body = client.get_docs(&id).await?;
     println!("{}", body);
     Ok(())

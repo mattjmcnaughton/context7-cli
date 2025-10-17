@@ -1,25 +1,18 @@
 use anyhow::Result;
 
-use crate::clients::Context7Client;
+use crate::clients::Context7ClientTrait;
+use crate::core::sorting::{SortField, sort_search_results};
+use crate::core::validation::validate_search_results_not_empty;
 
-pub async fn execute(query: String) -> Result<()> {
-    let client = Context7Client::new();
-    let mut search_response = client.search(&query).await?;
+pub async fn execute<T: Context7ClientTrait>(client: &T, query: String) -> Result<()> {
+    let search_response = client.search(&query).await?;
 
-    // Sort the results by stars (descending) to get the most popular one first
-    search_response
-        .results
-        .sort_by(|a, b| b.stars.unwrap_or(0).cmp(&a.stars.unwrap_or(0)));
+    validate_search_results_not_empty(&search_response.results, &query)?;
 
-    // Hard fail if no search results returned
-    if search_response.results.is_empty() {
-        anyhow::bail!("No results found for query: '{}'", query);
-    }
+    let sorted_results = sort_search_results(search_response.results, SortField::Stars);
 
-    // Get the first (most starred) result
-    let first_result = &search_response.results[0];
+    let first_result = &sorted_results[0];
 
-    // Fetch and output the documentation
     let body = client.get_docs(&first_result.id).await?;
     println!("{}", body);
 
