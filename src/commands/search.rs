@@ -1,68 +1,85 @@
 use anyhow::Result;
 
-use crate::clients::Context7Client;
+use crate::clients::Context7ClientTrait;
+use crate::core::formatting;
+use crate::core::sorting::{SortField, apply_limit, sort_search_results};
 
-pub async fn execute(
+pub async fn execute<T: Context7ClientTrait>(
+    client: &T,
     query: String,
     sort_by: String,
     limit: Option<usize>,
     id_only: bool,
 ) -> Result<()> {
-    let client = Context7Client::new();
-    let mut search_response = client.search(&query).await?;
+    let sort_field = SortField::from_str(&sort_by)?;
 
-    // Validate sort_by field
-    let valid_fields = [
-        "stars",
-        "totalPages",
-        "totalSnippets",
-        "totalTokens",
-        "trustScore",
-    ];
-    if !valid_fields.contains(&sort_by.as_str()) {
-        anyhow::bail!(
-            "Invalid sort field '{}'. Valid options are: {}",
-            sort_by,
-            valid_fields.join(", ")
-        );
-    }
+    let search_response = client.search(&query).await?;
 
-    // Sort the results
-    search_response
-        .results
-        .sort_by(|a, b| match sort_by.as_str() {
-            "stars" => b.stars.unwrap_or(0).cmp(&a.stars.unwrap_or(0)),
-            "totalPages" => b.total_pages.unwrap_or(0).cmp(&a.total_pages.unwrap_or(0)),
-            "totalSnippets" => b
-                .total_snippets
-                .unwrap_or(0)
-                .cmp(&a.total_snippets.unwrap_or(0)),
-            "totalTokens" => b
-                .total_tokens
-                .unwrap_or(0)
-                .cmp(&a.total_tokens.unwrap_or(0)),
-            "trustScore" => b
-                .trust_score
-                .unwrap_or(0.0)
-                .partial_cmp(&a.trust_score.unwrap_or(0.0))
-                .unwrap_or(std::cmp::Ordering::Equal),
-            _ => unreachable!("Already validated sort_by field"),
-        });
+    let mut results = sort_search_results(search_response.results, sort_field);
 
-    // Apply limit if specified
     if let Some(limit) = limit {
-        search_response.results.truncate(limit);
+        results = apply_limit(results, limit);
     }
 
-    // Output based on format
-    if id_only {
-        for result in &search_response.results {
-            println!("{}", result.id);
-        }
-    } else {
-        let pretty_json = serde_json::to_string_pretty(&search_response.results)?;
-        println!("{}", pretty_json);
-    }
+    let output = formatting::format_search_results(&results, id_only)?;
+    println!("{}", output);
 
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::clients::MockContext7Client;
+
+    #[tokio::test]
+    async fn test_search_with_mock_client() {
+        let mock_client = MockContext7Client::new();
+
+        // Test that search executes without errors using mock data
+        let result = execute(
+            &mock_client,
+            "react".to_string(),
+            "stars".to_string(),
+            None,
+            false,
+        )
+        .await;
+
+        assert!(result.is_ok());
+    }
+
+    #[tokio::test]
+    async fn test_search_with_limit() {
+        let mock_client = MockContext7Client::new();
+
+        // Test that search with limit executes successfully
+        let result = execute(
+            &mock_client,
+            "javascript".to_string(),
+            "stars".to_string(),
+            Some(2),
+            false,
+        )
+        .await;
+
+        assert!(result.is_ok());
+    }
+
+    #[tokio::test]
+    async fn test_search_id_only_mode() {
+        let mock_client = MockContext7Client::new();
+
+        // Test that id-only mode works
+        let result = execute(
+            &mock_client,
+            "vue".to_string(),
+            "trustScore".to_string(),
+            None,
+            true,
+        )
+        .await;
+
+        assert!(result.is_ok());
+    }
 }
