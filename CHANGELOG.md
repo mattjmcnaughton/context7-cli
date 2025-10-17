@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/mattjmcnaughton/context7-cli/compare/v1.2.2...v1.2.3) (2025-10-17)
+
+
+### Bug Fixes
+
+* **publish:** add created event trigger to publish workflow ([e372479](https://github.com/mattjmcnaughton/context7-cli/commit/e3724796d9f1339078472deefdbcace66d9bb098))
+
 ## [1.2.2](https://github.com/mattjmcnaughton/context7-cli/compare/v1.2.1...v1.2.2) (2025-10-16)
 
 
