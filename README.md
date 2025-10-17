@@ -13,7 +13,21 @@ Context7 provides a comprehensive database of library documentation. This CLI to
 
 ## Installation
 
-### Option 1: Download Pre-built Binary (Recommended)
+### Option 1: Install with Homebrew (Recommended for macOS/Linux)
+
+If you have Homebrew installed:
+
+```bash
+brew tap mattjmcnaughton/tools
+brew install mattjmcnaughton/tools/context7-cli
+```
+
+Verify the installation:
+```bash
+context7-cli --help
+```
+
+### Option 2: Download Pre-built Binary
 
 Download the latest pre-built binary for your platform from the [GitHub Releases page](https://github.com/mattjmcnaughton/context7-cli/releases):
 
@@ -41,7 +55,7 @@ Verify the installation:
 context7-cli --help
 ```
 
-### Option 2: Install with Cargo
+### Option 3: Install with Cargo
 
 If you have Rust and Cargo installed:
 
@@ -51,7 +65,7 @@ cargo install --git https://github.com/mattjmcnaughton/context7-cli.git
 
 This will install `context7-cli` to `~/.cargo/bin/`, which should be in your PATH.
 
-### Option 3: Build from Source
+### Option 4: Build from Source
 
 **Prerequisites:**
 - [Rust](https://www.rust-lang.org/tools/install) (1.70 or later)
