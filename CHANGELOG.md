@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/mattjmcnaughton/context7-cli/compare/v1.2.4...v1.3.0) (2025-10-17)
+
+
+### Features
+
+* update to use brew for install ([1361df7](https://github.com/mattjmcnaughton/context7-cli/commit/1361df7e578e03855765a182cb4bd16dfea7ef81))
+
 ## [1.2.4](https://github.com/mattjmcnaughton/context7-cli/compare/v1.2.3...v1.2.4) (2025-10-17)
 
 
