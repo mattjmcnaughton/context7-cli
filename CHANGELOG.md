@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/mattjmcnaughton/context7-cli/compare/v1.2.3...v1.2.4) (2025-10-17)
+
+
+### Bug Fixes
+
+* **publish:** implement complete automated binary building and publishing workflow ([921c334](https://github.com/mattjmcnaughton/context7-cli/commit/921c334070e58d30d203f7f85b0aeefe9bc53a97)), closes [#11](https://github.com/mattjmcnaughton/context7-cli/issues/11)
+
 ## [1.2.3](https://github.com/mattjmcnaughton/context7-cli/compare/v1.2.2...v1.2.3) (2025-10-17)
 
 
