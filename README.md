@@ -18,8 +18,8 @@ Context7 provides a comprehensive database of library documentation. This CLI to
 If you have Homebrew installed:
 
 ```bash
-brew tap mattjmcnaughton/tools
-brew install mattjmcnaughton/tools/context7-cli
+brew tap mattjmcnaughton/tap
+brew install mattjmcnaughton/tap/context7-cli
 ```
 
 Verify the installation:
